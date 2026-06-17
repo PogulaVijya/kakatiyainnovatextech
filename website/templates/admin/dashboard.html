@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Kakatiya InnovateX Technologies</title>
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="/static/css/admin.css" rel="stylesheet">
+  <style>
+    /* Section visible toggle */
+    .dashboard-section {
+      display: none;
+    }
+    .dashboard-section.active {
+      display: block;
+    }
+    .sidebar-toggle-btn {
+      display: none;
+    }
+    @media (max-width: 991px) {
+      .sidebar-toggle-btn {
+        display: inline-block;
+      }
+    }
+    .modal-content-dark {
+      background-color: #0F172A;
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #FFFFFF;
+    }
+    .modal-header-dark {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .modal-footer-dark {
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center">
+        <img src="/static/images/logo-emblem.png" alt="Logo" width="35" class="me-2">
+        <div>
+          <span class="d-block fw-bold text-white mb-0" style="font-size: 0.95rem; font-family: var(--font-heading);">KAKATIYA</span>
+          <span class="d-block text-uppercase text-gradient-gold fw-semibold" style="font-size: 0.55rem; letter-spacing: 0.05em;">INNOVATEX</span>
+        </div>
+      </div>
+      <button class="btn btn-sm btn-dark text-muted sidebar-toggle-btn d-lg-none" onclick="toggleSidebar()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <ul class="sidebar-menu">
+      <li class="menu-item"><a class="menu-link active" data-section="overview"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+      <li class="menu-item"><a class="menu-link" data-section="services"><i class="bi bi-cpu"></i> Services</a></li>
+      <li class="menu-item"><a class="menu-link" data-section="jobs"><i class="bi bi-briefcase"></i> Job Roles</a></li>
+      <li class="menu-item"><a class="menu-link" data-section="applicants"><i class="bi bi-people"></i> Applicants <span class="badge bg-danger ms-auto rounded-circle d-none" id="newApplicantsCount">0</span></a></li>
+      <li class="menu-item"><a class="menu-link" data-section="inquiries"><i class="bi bi-envelope-paper"></i> Inquiries</a></li>
+      <li class="menu-item"><a class="menu-link" data-section="testimonials"><i class="bi bi-chat-quote"></i> Testimonials</a></li>
+      <li class="menu-item"><a class="menu-link" data-section="team"><i class="bi bi-person-vcard"></i> Leadership Team</a></li>
+      <li class="menu-item"><a class="menu-link" data-section="blogs"><i class="bi bi-journal-text"></i> Insights & Blogs</a></li>
+      <li class="menu-item"><a class="menu-link" data-section="settings"><i class="bi bi-sliders"></i> General Settings</a></li>
+    </ul>
+    <div class="p-3 mt-auto border-top border-secondary position-absolute bottom-0 w-100" style="background-color: rgba(15,23,42,0.95);">
+      <button class="btn btn-outline-danger w-100 btn-sm" onclick="logout()"><i class="bi bi-box-arrow-right me-2"></i> Log Out</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="d-flex align-items-center">
+        <button class="btn btn-outline-custom me-3 d-lg-none" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
+        <h1 class="h3 fw-bold text-white mb-0" id="currentSectionTitle">Dashboard Overview</h1>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <span class="text-muted small">Welcome, <strong class="text-white" id="adminUsername">Admin</strong></span>
+        <a href="/" target="_blank" class="btn btn-outline-custom btn-sm"><i class="bi bi-globe me-2"></i> View Site</a>
+      </div>
+    </header>
+
+    <!-- SECTION: OVERVIEW -->
+    <section id="sect-overview" class="dashboard-section active">
+      <!-- Stat Cards -->
+      <div class="row g-4 mb-5">
+        <div class="col-lg-3 col-sm-6">
+          <div class="glass-card d-flex align-items-center justify-content-between">
+            <div>
+              <span class="text-muted small text-uppercase">Total Inquiries</span>
+              <h2 class="display-6 fw-bold text-white mt-1 mb-0" id="stat-inquiries">0</h2>
+            </div>
+            <div class="stat-icon text-warning"><i class="bi bi-envelope-paper"></i></div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <div class="glass-card d-flex align-items-center justify-content-between">
+            <div>
+              <span class="text-muted small text-uppercase">Job Applications</span>
+              <h2 class="display-6 fw-bold text-white mt-1 mb-0" id="stat-applicants">0</h2>
+            </div>
+            <div class="stat-icon text-info"><i class="bi bi-people"></i></div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <div class="glass-card d-flex align-items-center justify-content-between">
+            <div>
+              <span class="text-muted small text-uppercase">Total Services</span>
+              <h2 class="display-6 fw-bold text-white mt-1 mb-0" id="stat-services">0</h2>
+            </div>
+            <div class="stat-icon text-primary"><i class="bi bi-cpu"></i></div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <div class="glass-card d-flex align-items-center justify-content-between">
+            <div>
+              <span class="text-muted small text-uppercase">Blog Posts</span>
+              <h2 class="display-6 fw-bold text-white mt-1 mb-0" id="stat-blogs">0</h2>
+            </div>
+            <div class="stat-icon text-success"><i class="bi bi-journal-text"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Log Tables -->
+      <div class="row g-4">
+        <!-- Recent Inquiries -->
+        <div class="col-lg-6">
+          <div class="glass-card h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="h5 text-white mb-0">Recent Contact Inquiries</h3>
+              <button class="btn btn-link btn-sm text-gradient-gold text-decoration-none" onclick="navigateToSection('inquiries')">View All</button>
+            </div>
+            <div class="custom-table-container">
+              <table class="table-custom">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Subject</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-inquiries-tbody">
+                  <tr><td colspan="3" class="text-center text-muted">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- Recent Applicants -->
+        <div class="col-lg-6">
+          <div class="glass-card h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="h5 text-white mb-0">Recent Applicants</h3>
+              <button class="btn btn-link btn-sm text-gradient-gold text-decoration-none" onclick="navigateToSection('applicants')">View All</button>
+            </div>
+            <div class="custom-table-container">
+              <table class="table-custom">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-applicants-tbody">
+                  <tr><td colspan="3" class="text-center text-muted">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: SERVICES -->
+    <section id="sect-services" class="dashboard-section">
+      <div class="glass-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="h5 text-white mb-0">Manage Services Architectures</h3>
+          <button class="btn btn-gold-custom btn-sm" onclick="openAddServiceModal()"><i class="bi bi-plus-lg me-1"></i> Add Service</button>
+        </div>
+        <div class="custom-table-container">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                <th>Service Name</th>
+                <th>Icon Class / URL</th>
+                <th>Description Preview</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="services-table-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: JOBS -->
+    <section id="sect-jobs" class="dashboard-section">
+      <div class="glass-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="h5 text-white mb-0">Manage Job Opportunities</h3>
+          <button class="btn btn-gold-custom btn-sm" onclick="openAddJobModal()"><i class="bi bi-plus-lg me-1"></i> Add Open Position</button>
+        </div>
+        <div class="custom-table-container">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                <th>Job Title</th>
+                <th>Location</th>
+                <th>Exp. Requirement</th>
+                <th>Skills Required</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="jobs-table-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: APPLICANTS -->
+    <section id="sect-applicants" class="dashboard-section">
+      <div class="glass-card">
+        <div class="row g-3 mb-4 align-items-center justify-content-between">
+          <div class="col-md-4">
+            <input type="text" id="applicant-search" class="form-control" placeholder="Search applicants..." oninput="filterApplicantsTable()">
+          </div>
+          <div class="col-md-3">
+            <select id="applicant-filter-status" class="form-select" onchange="filterApplicantsTable()">
+              <option value="all">All Statuses</option>
+              <option value="New">New</option>
+              <option value="Under Review">Under Review</option>
+              <option value="Shortlisted">Shortlisted</option>
+              <option value="Rejected">Rejected</option>
+              <option value="Hired">Hired</option>
+            </select>
+          </div>
+        </div>
+        <div class="custom-table-container">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                <th>Applicant Name</th>
+                <th>Email</th>
+                <th>Applied Role</th>
+                <th>Submission Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="applicants-table-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: INQUIRIES -->
+    <section id="sect-inquiries" class="dashboard-section">
+      <div class="glass-card">
+        <div class="row g-3 mb-4 align-items-center justify-content-between">
+          <div class="col-md-4">
+            <input type="text" id="inquiry-search" class="form-control" placeholder="Search inquiries..." oninput="filterInquiriesTable()">
+          </div>
+          <div class="col-md-4 text-md-end">
+            <a href="/api/inquiries/export" class="btn btn-outline-custom btn-sm"><i class="bi bi-download me-1"></i> Export to CSV</a>
+          </div>
+        </div>
+        <div class="custom-table-container">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                <th>Client Name</th>
+                <th>Email</th>
+                <th>Subject Interest</th>
+                <th>Date Submitted</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="inquiries-table-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: TESTIMONIALS -->
+    <section id="sect-testimonials" class="dashboard-section">
+      <div class="glass-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="h5 text-white mb-0">Client Testimonials</h3>
+          <button class="btn btn-gold-custom btn-sm" onclick="openAddTestimonialModal()"><i class="bi bi-plus-lg me-1"></i> Add Testimonial</button>
+        </div>
+        <div class="custom-table-container">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                <th>Client Name</th>
+                <th>Company / Designation</th>
+                <th>Message Snippet</th>
+                <th>Display Layout</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="testimonials-table-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: TEAM -->
+    <section id="sect-team" class="dashboard-section">
+      <div class="glass-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="h5 text-white mb-0">Leadership Team</h3>
+          <button class="btn btn-gold-custom btn-sm" onclick="openAddTeamModal()"><i class="bi bi-plus-lg me-1"></i> Add Member</button>
+        </div>
+        <div class="custom-table-container">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>LinkedIn URL</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="team-table-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: BLOGS -->
+    <section id="sect-blogs" class="dashboard-section">
+      <div class="glass-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="h5 text-white mb-0">Manage Blog & Insights</h3>
+          <button class="btn btn-gold-custom btn-sm" onclick="openAddBlogModal()"><i class="bi bi-plus-lg me-1"></i> Write New Article</button>
+        </div>
+        <div class="custom-table-container">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Article Title</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="blogs-table-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: SETTINGS -->
+    <section id="sect-settings" class="dashboard-section">
+      <div class="glass-card">
+        <h3 class="h5 text-white mb-4">Update Corporate Contacts & Meta</h3>
+        <form id="settings-form" onsubmit="saveSettings(event)">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <label for="set-company-name" class="form-label">Company Name</label>
+              <input type="text" id="set-company-name" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label for="set-email" class="form-label">Corporate Email Address</label>
+              <input type="email" id="set-email" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label for="set-hr-email" class="form-label">HR Support Email</label>
+              <input type="email" id="set-hr-email" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label for="set-phone" class="form-label">Phone Support Number</label>
+              <input type="text" id="set-phone" class="form-control" required>
+            </div>
+            <div class="col-12">
+              <label for="set-address" class="form-label">Office Location Address</label>
+              <input type="text" id="set-address" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+              <label for="set-linkedin" class="form-label">LinkedIn Page Link</label>
+              <input type="url" id="set-linkedin" class="form-control">
+            </div>
+            <div class="col-md-4">
+              <label for="set-instagram" class="form-label">Instagram Link</label>
+              <input type="url" id="set-instagram" class="form-control">
+            </div>
+            <div class="col-md-4">
+              <label for="set-twitter" class="form-label">Twitter/X Link</label>
+              <input type="url" id="set-twitter" class="form-control">
+            </div>
+            <div class="col-12">
+              <label for="set-footer" class="form-label">Footer Copyright Info</label>
+              <textarea id="set-footer" rows="2" class="form-control" required></textarea>
+            </div>
+            <div class="col-12 mt-4 text-end">
+              <button type="submit" class="btn btn-gold-custom" id="settings-save-btn">Save Configurations</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- MODAL: ADD/EDIT SERVICE -->
+  <div class="modal fade" id="serviceModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content modal-content-dark" id="serviceForm" onsubmit="submitServiceForm(event)">
+        <div class="modal-header modal-header-dark">
+          <h5 class="modal-title" id="serviceModalTitle">Add Service</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="service-id-input">
+          <div class="mb-3">
+            <label for="service-name-input" class="form-label">Service Name</label>
+            <input type="text" id="service-name-input" class="form-control" required placeholder="e.g. AI & Cloud Migration">
+          </div>
+          <div class="mb-3">
+            <label for="service-icon-input" class="form-label">Service Icon Class or Image URL</label>
+            <div class="input-group">
+              <input type="text" id="service-icon-input" class="form-control" placeholder="e.g. bi bi-cpu or /uploads/custom.png">
+              <input type="file" id="service-file-upload" class="d-none" onchange="uploadImageFile(this, 'service-icon-input')">
+              <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('service-file-upload').click()"><i class="bi bi-upload"></i></button>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="service-desc-input" class="form-label">Service Description</label>
+            <textarea id="service-desc-input" rows="6" class="form-control" required placeholder="Enter description... Use double line breaks (\n\n) to create subheaders/sections. Format: Subheader : Details"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer modal-footer-dark">
+          <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-gold-custom" id="service-save-btn">Save Service</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD/EDIT JOB -->
+  <div class="modal fade" id="jobModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content modal-content-dark" id="jobForm" onsubmit="submitJobForm(event)">
+        <div class="modal-header modal-header-dark">
+          <h5 class="modal-title" id="jobModalTitle">Add Job Openings</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="job-id-input">
+          <div class="mb-3">
+            <label for="job-title-input" class="form-label">Job Title</label>
+            <input type="text" id="job-title-input" class="form-control" required placeholder="e.g. Lead React Developer">
+          </div>
+          <div class="mb-3">
+            <label for="job-location-input" class="form-label">Location</label>
+            <input type="text" id="job-location-input" class="form-control" required placeholder="e.g. Warangal / Remote">
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-md-6">
+              <label for="job-experience-input" class="form-label">Experience Required</label>
+              <input type="text" id="job-experience-input" class="form-control" required placeholder="e.g. 3-5 Years">
+            </div>
+            <div class="col-md-6">
+              <label for="job-status-input" class="form-label">Status</label>
+              <select id="job-status-input" class="form-select">
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="job-skills-input" class="form-label">Required Skills (Comma separated)</label>
+            <input type="text" id="job-skills-input" class="form-control" required placeholder="e.g. React, Node.js, SQL, AWS">
+          </div>
+          <div class="mb-3">
+            <label for="job-desc-input" class="form-label">Job Description</label>
+            <textarea id="job-desc-input" rows="4" class="form-control" placeholder="Short description of the role responsibilities..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer modal-footer-dark">
+          <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-gold-custom">Save Position</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: VIEW APPLICANT DETAILS -->
+  <div class="modal fade" id="applicantDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content modal-content-dark">
+        <div class="modal-header modal-header-dark">
+          <h5 class="modal-title">Job Applicant Profile</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <span class="text-muted small d-block">Candidate Name</span>
+              <strong id="view-app-name" class="fs-5 text-white">John Doe</strong>
+            </div>
+            <div class="col-md-6">
+              <span class="text-muted small d-block">Email Address</span>
+              <a href="" id="view-app-email" class="text-info text-decoration-none">john@example.com</a>
+            </div>
+            <div class="col-md-6">
+              <span class="text-muted small d-block">Position Applied For</span>
+              <span id="view-app-role" class="text-white">Senior Software Engineer</span>
+            </div>
+            <div class="col-md-6">
+              <span class="text-muted small d-block">Submission Date</span>
+              <span id="view-app-date" class="text-muted">June 15, 2026</span>
+            </div>
+            <div class="col-12">
+              <span class="text-muted small d-block">Key Candidate Skills</span>
+              <span id="view-app-skills" class="badge bg-secondary p-2 text-white mt-1">Python, SQL, HTML</span>
+            </div>
+            <div class="col-12">
+              <span class="text-muted small d-block">Cover Introduction Message</span>
+              <p id="view-app-message" class="bg-dark p-3 rounded text-muted mt-1" style="white-space: pre-wrap;"></p>
+            </div>
+            <div class="col-md-6">
+              <span class="text-muted small d-block mb-1">Resume File / Portfolio Links</span>
+              <a href="" id="view-app-resume" target="_blank" class="btn btn-gold-custom btn-sm"><i class="bi bi-file-earmark-pdf me-1"></i> Open & Download Resume</a>
+            </div>
+            <div class="col-md-6">
+              <label for="view-app-status-select" class="form-label small">Update Application Status</label>
+              <select id="view-app-status-select" class="form-select bg-dark border-secondary text-white" onchange="updateApplicantStatus()">
+                <option value="New">New</option>
+                <option value="Under Review">Under Review</option>
+                <option value="Shortlisted">Shortlisted</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Hired">Hired</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: VIEW INQUIRY DETAILS -->
+  <div class="modal fade" id="inquiryDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-content-dark">
+        <div class="modal-header modal-header-dark">
+          <h5 class="modal-title">Contact Inquiry Details</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <span class="text-muted small d-block">Client Name</span>
+            <strong id="view-inq-name" class="text-white">Client Corp</strong>
+          </div>
+          <div class="mb-3">
+            <span class="text-muted small d-block">Email Address</span>
+            <a href="" id="view-inq-email" class="text-info text-decoration-none">client@corp.com</a>
+          </div>
+          <div class="mb-3">
+            <span class="text-muted small d-block">Subject Interest</span>
+            <span id="view-inq-subject" class="text-white">Healthcare Support</span>
+          </div>
+          <div class="mb-3">
+            <span class="text-muted small d-block">Client Message</span>
+            <p id="view-inq-message" class="bg-dark p-3 rounded text-muted mt-1" style="white-space: pre-wrap;"></p>
+          </div>
+          <div class="mb-3">
+            <label for="view-inq-status" class="form-label">Inquiry Lead Status</label>
+            <select id="view-inq-status" class="form-select" onchange="updateInquiryStatus()">
+              <option value="Pending">Pending</option>
+              <option value="Contacted">Contacted</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="view-inq-notes" class="form-label">Admin Notes</label>
+            <textarea id="view-inq-notes" rows="3" class="form-control" placeholder="Add custom notes on lead discussions..."></textarea>
+          </div>
+          <button class="btn btn-gold-custom w-100 mt-2" onclick="saveInquiryNotes()">Save Lead Notes & Status</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD/EDIT TESTIMONIAL -->
+  <div class="modal fade" id="testimonialModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content modal-content-dark" id="testimonialForm" onsubmit="submitTestimonialForm(event)">
+        <div class="modal-header modal-header-dark">
+          <h5 class="modal-title" id="testimonialModalTitle">Add Testimonial</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="testimonial-id-input">
+          <div class="mb-3">
+            <label for="testimonial-name-input" class="form-label">Client Name / Position</label>
+            <input type="text" id="testimonial-name-input" class="form-control" required placeholder="e.g. VP of Product Architecture">
+          </div>
+          <div class="mb-3">
+            <label for="testimonial-company-input" class="form-label">Company / Institution Name</label>
+            <input type="text" id="testimonial-company-input" class="form-control" required placeholder="e.g. FinTech Global Solutions">
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-md-6">
+              <label for="testimonial-rating-input" class="form-label">Rating Score (1-5)</label>
+              <input type="number" id="testimonial-rating-input" class="form-control" required min="1" max="5" value="5">
+            </div>
+            <div class="col-md-6">
+              <label for="testimonial-layout-input" class="form-label">Display Style Layout</label>
+              <select id="testimonial-layout-input" class="form-select">
+                <option value="0">Main Carousel Slide</option>
+                <option value="1">Infinite Ticker Banner</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="testimonial-message-input" class="form-label">Feedback Review Message</label>
+            <textarea id="testimonial-message-input" rows="4" class="form-control" required placeholder="Enter testimonial feedback text..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer modal-footer-dark">
+          <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-gold-custom">Save Feedback</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD/EDIT TEAM MEMBER -->
+  <div class="modal fade" id="teamModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content modal-content-dark" id="teamForm" onsubmit="submitTeamForm(event)">
+        <div class="modal-header modal-header-dark">
+          <h5 class="modal-title" id="teamModalTitle">Add Executive Member</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="team-id-input">
+          <div class="mb-3">
+            <label for="team-name-input" class="form-label">Member Full Name</label>
+            <input type="text" id="team-name-input" class="form-control" required placeholder="John Doe">
+          </div>
+          <div class="mb-3">
+            <label for="team-designation-input" class="form-label">Designation / Role Title</label>
+            <input type="text" id="team-designation-input" class="form-control" required placeholder="e.g. Chief Financial Officer">
+          </div>
+          <div class="mb-3">
+            <label for="team-linkedin-input" class="form-label">LinkedIn Profile Link</label>
+            <input type="url" id="team-linkedin-input" class="form-control" placeholder="https://www.linkedin.com/in/username">
+          </div>
+          <div class="mb-3">
+            <label for="team-photo-input" class="form-label">Profile Photo URL or Upload File</label>
+            <div class="input-group">
+              <input type="text" id="team-photo-input" class="form-control" required placeholder="/uploads/avatar.png">
+              <input type="file" id="team-file-upload" class="d-none" onchange="uploadImageFile(this, 'team-photo-input')">
+              <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('team-file-upload').click()"><i class="bi bi-upload"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer modal-footer-dark">
+          <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-gold-custom">Save Executive</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD/EDIT BLOG -->
+  <div class="modal fade" id="blogModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <form class="modal-content modal-content-dark" id="blogForm" onsubmit="submitBlogForm(event)">
+        <div class="modal-header modal-header-dark">
+          <h5 class="modal-title" id="blogModalTitle">Write Article</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="blog-id-input">
+          <div class="mb-3">
+            <label for="blog-title-input" class="form-label">Article Title</label>
+            <input type="text" id="blog-title-input" class="form-control" required placeholder="e.g. Leveraging AI in Modern Systems">
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-md-6">
+              <label for="blog-category-input" class="form-label">Category</label>
+              <select id="blog-category-input" class="form-select">
+                <option value="tech">IT Services</option>
+                <option value="staffing">IT Staffing</option>
+                <option value="healthcare">Healthcare</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="blog-status-input" class="form-label">Publishing Status</label>
+              <select id="blog-status-input" class="form-select">
+                <option value="published">Published</option>
+                <option value="draft">Draft</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="blog-image-input" class="form-label">Featured Image URL or Upload File</label>
+            <div class="input-group">
+              <input type="text" id="blog-image-input" class="form-control" required placeholder="/uploads/blog_cover.png">
+              <input type="file" id="blog-file-upload" class="d-none" onchange="uploadImageFile(this, 'blog-image-input')">
+              <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('blog-file-upload').click()"><i class="bi bi-upload"></i></button>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="blog-excerpt-input" class="form-label">Short Excerpt (Summary)</label>
+            <input type="text" id="blog-excerpt-input" class="form-control" required placeholder="Enter brief summary of 1-2 sentences...">
+          </div>
+          <div class="mb-3">
+            <label for="blog-content-input" class="form-label">Article Body Content</label>
+            <textarea id="blog-content-input" rows="8" class="form-control" required placeholder="Write detailed blog article body here..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer modal-footer-dark">
+          <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-gold-custom">Publish Post</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <!-- Definitions for Gradients -->
+  <defs>
+    <!-- Primary Blue Gradient -->
+    <linearGradient id="primaryBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#002D72" />
+      <stop offset="100%" stop-color="#001845" />
+    </linearGradient>
+    
+    <!-- Royal Blue Gradient for Swoosh -->
+    <linearGradient id="royalBlueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#002D72" />
+      <stop offset="50%" stop-color="#0057D9" />
+      <stop offset="100%" stop-color="#00A8FF" />
+    </linearGradient>
+
+    <!-- Gold Gradient -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C99A2E" />
+      <stop offset="50%" stop-color="#E6BA5E" />
+      <stop offset="100%" stop-color="#9A701A" />
+    </linearGradient>
+
+    <!-- Arch/Stone Color Gradient -->
+    <linearGradient id="stoneGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2D3748" />
+      <stop offset="50%" stop-color="#4A5568" />
+      <stop offset="100%" stop-color="#1A202C" />
+    </linearGradient>
+  </defs>
+
+  <!-- BACKGROUND: Optional (remove if transparent is needed, but we keep it clean transparent) -->
+  
+  <!-- EMBLEM GROUP (Centered) -->
+  <g transform="translate(0, -20)">
+    <!-- 1. KAKATIYA KALA THORANAM (ARCH) on top -->
+    <g transform="translate(250, 90) scale(0.65)" id="KakatiyaArch">
+      <!-- Left Column / Pillar -->
+      <rect x="50" y="150" width="40" height="220" fill="url(#stoneGrad)" rx="2" />
+      <rect x="40" y="370" width="60" height="15" fill="#1A202C" />
+      <rect x="45" y="130" width="50" height="20" fill="#4A5568" rx="2" />
+      
+      <!-- Right Column / Pillar -->
+      <rect x="370" y="150" width="40" height="220" fill="url(#stoneGrad)" rx="2" />
+      <rect x="360" y="370" width="60" height="15" fill="#1A202C" />
+      <rect x="365" y="130" width="50" height="20" fill="#4A5568" rx="2" />
+
+      <!-- Main Arch Beam -->
+      <rect x="20" y="90" width="420" height="40" fill="url(#stoneGrad)" rx="5" />
+      
+      <!-- Top Decorative Beam -->
+      <rect x="60" y="50" width="340" height="25" fill="url(#stoneGrad)" rx="4" />
+      
+      <!-- Tiny vertical pillars inside the arch architrave -->
+      <line x1="80" y1="130" x2="80" y2="150" stroke="#1A202C" stroke-width="8" />
+      <line x1="120" y1="130" x2="120" y2="150" stroke="#1A202C" stroke-width="8" />
+      <line x1="340" y1="130" x2="340" y2="150" stroke="#1A202C" stroke-width="8" />
+      <line x1="380" y1="130" x2="380" y2="150" stroke="#1A202C" stroke-width="8" />
+
+      <!-- Sculpted Top Crown (Tiered temple structures) -->
+      <polygon points="110,50 130,20 170,20 190,50" fill="url(#stoneGrad)" />
+      <polygon points="270,50 290,20 330,20 350,50" fill="url(#stoneGrad)" />
+      <!-- Center Crown -->
+      <polygon points="200,50 220,10 240,10 260,50" fill="url(#stoneGrad)" />
+      <rect x="225" y="5" width="10" height="5" fill="#C99A2E" />
+
+      <!-- Intricate Arch Curved Bottom Board -->
+      <path d="M90 150 Q230 110 370 150" stroke="url(#stoneGrad)" stroke-width="15" fill="none" stroke-linecap="round" />
+      <path d="M110 150 Q230 125 350 150" stroke="#C99A2E" stroke-width="4" fill="none" />
+    </g>
+
+    <!-- 2. THE LETTERS "K" & "I" -->
+    <!-- Letter K (Dark Blue, Serif, Left side) -->
+    <path d="M220 280 L220 520 M220 280 L290 280 M220 520 L290 520 M220 400 L390 280 M220 400 L410 520" 
+          stroke="url(#primaryBlueGrad)" stroke-width="45" stroke-linecap="square" stroke-linejoin="miter" />
+    
+    <!-- Letter I (Gold, Serif, Right side) -->
+    <!-- Main stem -->
+    <path d="M520 300 L520 500" stroke="url(#goldGrad)" stroke-width="45" stroke-linecap="square" />
+    <!-- Top and Bottom Serifs -->
+    <path d="M470 300 L570 300 M470 500 L570 500" stroke="url(#goldGrad)" stroke-width="35" stroke-linecap="square" />
+
+    <!-- 3. THE BLUE SWOOSH (Sweeping curve crossing K and I) -->
+    <path d="M230 520 C 300 480, 420 340, 530 265" 
+          stroke="url(#royalBlueGrad)" stroke-width="24" stroke-linecap="round" fill="none" />
+
+    <!-- 4. FLOATING PIXEL SQUARES (At the top right of I) -->
+    <g fill="url(#primaryBlueGrad)">
+      <rect x="540" y="220" width="15" height="15" />
+      <rect x="560" y="240" width="12" height="12" />
+      <rect x="580" y="210" width="14" height="14" />
+      <rect x="600" y="235" width="10" height="10" />
+    </g>
+    <g fill="url(#goldGrad)">
+      <rect x="565" y="200" width="15" height="15" />
+      <rect x="590" y="185" width="12" height="12" />
+      <rect x="615" y="195" width="10" height="10" />
+    </g>
+  </g>
+
+  <!-- 5. TYPOGRAPHY (Centered below) -->
+  <!-- "KAKATIYA" in large corporate serif font -->
+  <text x="400" y="605" font-family="'Outfit', 'Georgia', serif" font-weight="900" font-size="78" fill="#002D72" text-anchor="middle" letter-spacing="10">KAKATIYA</text>
+  
+  <!-- "— INNOVATEX TECHNOLOGIES —" in gold -->
+  <text x="400" y="665" font-family="'Outfit', 'Inter', sans-serif" font-weight="700" font-size="28" fill="#C99A2E" text-anchor="middle" letter-spacing="4">— INNOVATEX TECHNOLOGIES —</text>
+  
+  <!-- Tagline: "INNOVATE • INTEGRATE • ELEVATE" -->
+  <text x="400" y="715" font-family="'Inter', sans-serif" font-weight="600" font-size="20" fill="#002D72" text-anchor="middle" letter-spacing="6">INNOVATE  •  INTEGRATE  •  ELEVATE</text>
+</svg>
